@@ -34,16 +34,25 @@ var commandWrite = cli.Command {
 
 func doComment(c *cli.Context) {
   scanner := bufio.NewScanner(os.Stdin)
+  usr, _ := user.Current()
+  fout, err := os.OpenFile(path.Join(usr.HomeDir, ".comment"), os.O_RDWR|os.O_APPEND, 0660)
+  if err != nil {
+    fout, err = os.Create(path.Join(usr.HomeDir, ".comment"))
+  }
+  defer fout.Close()
   fmt.Print("Title: ")
   for scanner.Scan() {
+    fout.WriteString("## " + scanner.Text() + "\n\n")
     break
   }
   for i := 1; i <= 3; i++ {
     fmt.Print("Comment", i, ": ")
     for scanner.Scan() {
+      fout.WriteString("* " + scanner.Text() + "\n")
       break
     }
   }
+  fout.WriteString("\n")
 }
 
 func doWrite(c *cli.Context) {
