@@ -104,6 +104,13 @@ If installed go:
 % go get github.com/e-jigsaw/journal
 ```
 
+OSX:
+
+```
+% brew tap e-jigsaw/journal
+% brew install journal
+```
+
 ## Author
 
 jigsaw (http://jgs.me)
