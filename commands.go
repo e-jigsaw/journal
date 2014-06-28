@@ -1,7 +1,6 @@
 package main
 
 import (
-  "fmt"
   "os"
   "os/user"
   "path"
@@ -25,10 +24,9 @@ var commandWrite = cli.Command {
 func doWrite(c *cli.Context) {
   usr, _ := user.Current()
   hour, min, _ := time.Now().Clock()
-  fout, err := os.Create(path.Join(usr.HomeDir, ".journal"))
+  fout, err := os.OpenFile(path.Join(usr.HomeDir, ".journal"), os.O_RDWR|os.O_APPEND, 0660)
   if err != nil {
-    fmt.Println(err)
-    return
+    fout, err = os.Create(path.Join(usr.HomeDir, ".journal"))
   }
   defer fout.Close()
   fout.WriteString(strconv.Itoa(hour) + ":" + strconv.Itoa(min) + " | ")
