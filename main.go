@@ -13,7 +13,7 @@ func newApp() *cli.App {
   app := cli.NewApp()
   app.Name = "journal"
   app.Usage = "Journal for Daily Reports"
-  app.Version = "0.0.0"
+  app.Version = "0.1.0"
   app.Author = "jigsaw"
   app.Email = "m@jgs.me"
   app.Commands = Commands
