@@ -1,4 +1,4 @@
-box: motemen/golang-gox@0.0.2
+box: motemen/golang-goxc@0.0.0
 # Build definition
 build:
   # The steps that will be executed on build
@@ -28,6 +28,6 @@ build:
           go test ./...
 
     - script:
-        name: gox
+        name: goxc build & archive
         code: |
-          gox ./...
+          goxc -tasks='xc archive' -bc 'linux,!arm windows darwin' -d $WERCKER_OUTPUT_DIR/
