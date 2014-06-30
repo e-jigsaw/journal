@@ -3,9 +3,7 @@ package main
 import (
   "fmt"
   "os"
-  "os/user"
   "bufio"
-  "path"
   "time"
   "strconv"
   "net/smtp"
@@ -42,18 +40,6 @@ var commandWrite = cli.Command {
   Usage: "write journal",
   Description: "write journal",
   Action: doWrite,
-}
-
-func ZeroComp(str string) string {
-  if len(str) == 1 {
-    str = "0" + str
-  }
-  return str
-}
-
-func HomePath(file string) string {
-  usr, _ := user.Current()
-  return path.Join(usr.HomeDir, file)
 }
 
 func doComment(c *cli.Context) {
