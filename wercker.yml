@@ -46,3 +46,6 @@ deploy:
     - wercker/github-upload-asset@1.0.1:
         token: $GITHUB_TOKEN
         file: snapshot/journal_darwin_amd64.zip
+    - wercker/github-upload-asset@1.0.1:
+        token: $GITHUB_TOKEN
+        file: snapshot/journal_darwin_386.zip
