@@ -39,4 +39,4 @@ deploy:
         tag: v0.1.1
     - wercker/github-upload-asset@1.0.1:
         token: $GITHUB_TOKEN
-        file: $WERCKER_OUTPUT_DIR/snapshot/ghq_darwin_amd64.zip
+        file: $WERCKER_OUTPUT_DIR/snapshot/journal_darwin_amd64.zip
