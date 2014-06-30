@@ -51,12 +51,16 @@ func ZeroComp(str string) string {
   return str
 }
 
+func HomePath(file string) string {
+  usr, _ := user.Current()
+  return path.Join(usr.HomeDir, file)
+}
+
 func doComment(c *cli.Context) {
   scanner := bufio.NewScanner(os.Stdin)
-  usr, _ := user.Current()
-  fout, err := os.OpenFile(path.Join(usr.HomeDir, ".comment"), os.O_RDWR|os.O_APPEND, 0660)
+  fout, err := os.OpenFile(HomePath(".comment"), os.O_RDWR|os.O_APPEND, 0660)
   if err != nil {
-    fout, err = os.Create(path.Join(usr.HomeDir, ".comment"))
+    fout, err = os.Create(HomePath(".comment"))
   }
   defer fout.Close()
   fmt.Print("Title: ")
@@ -82,10 +86,9 @@ type Config struct {
 }
 
 func doSend(c *cli.Context) {
-  usr, _ := user.Current()
-  conf, err := ioutil.ReadFile(path.Join(usr.HomeDir, ".journal.config.json"))
-  schedule, err := ioutil.ReadFile(path.Join(usr.HomeDir, ".journal"))
-  comment, err := ioutil.ReadFile(path.Join(usr.HomeDir, ".comment"))
+  conf, err := ioutil.ReadFile(HomePath(".journal.config.json"))
+  schedule, err := ioutil.ReadFile(HomePath(".journal"))
+  comment, err := ioutil.ReadFile(HomePath(".comment"))
   if err != nil {
     fmt.Println(err)
     return
@@ -106,12 +109,12 @@ func doSend(c *cli.Context) {
     fmt.Println(err)
     return
   }
-  err = os.Remove(path.Join(usr.HomeDir, ".journal"))
+  err = os.Remove(HomePath(".journal"))
   if err != nil {
     fmt.Println(err)
     return
   }
-  err = os.Remove(path.Join(usr.HomeDir, ".comment"))
+  err = os.Remove(HomePath(".comment"))
   if err != nil {
     fmt.Println(err)
     return
@@ -119,11 +122,10 @@ func doSend(c *cli.Context) {
 }
 
 func doWrite(c *cli.Context) {
-  usr, _ := user.Current()
   hour, min, _ := time.Now().Clock()
-  fout, err := os.OpenFile(path.Join(usr.HomeDir, ".journal"), os.O_RDWR|os.O_APPEND, 0660)
+  fout, err := os.OpenFile(HomePath(".journal"), os.O_RDWR|os.O_APPEND, 0660)
   if err != nil {
-    fout, err = os.Create(path.Join(usr.HomeDir, ".journal"))
+    fout, err = os.Create(HomePath(".journal"))
   }
   defer fout.Close()
   fout.WriteString(ZeroComp(strconv.Itoa(hour)) + ":" + ZeroComp(strconv.Itoa(min)) + " | ")
