@@ -1,4 +1,4 @@
-box: wercker/golang
+box: motemen/golang-gox@0.0.2
 # Build definition
 build:
   # The steps that will be executed on build
@@ -26,3 +26,8 @@ build:
         name: go test
         code: |
           go test ./...
+
+    - script:
+        name: gox
+        code: |
+          gox ./...
