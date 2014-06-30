@@ -1,4 +1,4 @@
-box: wercker/golang
+box: motemen/golang-goxc@0.0.0
 # Build definition
 build:
   # The steps that will be executed on build
@@ -26,3 +26,26 @@ build:
         name: go test
         code: |
           go test ./...
+
+    - script:
+        name: goxc build & archive
+        code: |
+          goxc -tasks='xc archive' -bc 'linux,!arm windows darwin' -d $WERCKER_OUTPUT_DIR/
+
+    - script:
+        name: show shasum
+        code: |
+          shasum $WERCKER_OUTPUT_DIR/snapshot/journal_darwin_amd64.zip
+          shasum $WERCKER_OUTPUT_DIR/snapshot/journal_darwin_386.zip
+
+deploy:
+  steps:
+    - wercker/github-create-release@1.0.1:
+        token: $GITHUB_TOKEN
+        tag: v0.1.1
+    - wercker/github-upload-asset@1.0.1:
+        token: $GITHUB_TOKEN
+        file: snapshot/journal_darwin_amd64.zip
+    - wercker/github-upload-asset@1.0.1:
+        token: $GITHUB_TOKEN
+        file: snapshot/journal_darwin_386.zip
