@@ -95,6 +95,7 @@ func doSend(c *cli.Context) {
     fmt.Println(err)
     return
   }
+  fmt.Println("Sent: ", body)
   err = os.Remove(HomePath(".journal"))
   if err != nil {
     fmt.Println(err)
