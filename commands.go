@@ -44,6 +44,13 @@ var commandWrite = cli.Command {
   Action: doWrite,
 }
 
+func ZeroComp(str string) string {
+  if len(str) == 1 {
+    str = "0" + str
+  }
+  return str
+}
+
 func doComment(c *cli.Context) {
   scanner := bufio.NewScanner(os.Stdin)
   usr, _ := user.Current()
@@ -119,7 +126,7 @@ func doWrite(c *cli.Context) {
     fout, err = os.Create(path.Join(usr.HomeDir, ".journal"))
   }
   defer fout.Close()
-  fout.WriteString(strconv.Itoa(hour) + ":" + strconv.Itoa(min) + " | ")
+  fout.WriteString(ZeroComp(strconv.Itoa(hour)) + ":" + ZeroComp(strconv.Itoa(min)) + " | ")
   for i := 0; i < len(c.Args()); i++ {
     fout.WriteString(c.Args()[i])
   }
