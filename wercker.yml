@@ -34,9 +34,9 @@ build:
 
 deploy:
   steps:
-    - wercker/github-create-release@1.0.1
+    - wercker/github-create-release@1.0.1:
       token: $GITHUB_TOKEN
       tag: v0.1.1
-    - wercker/github-upload-asset@1.0.1
+    - wercker/github-upload-asset@1.0.1:
       token: $GITHUB_TOKEN
       file: snapshot/ghq_darwin_amd64.zip
