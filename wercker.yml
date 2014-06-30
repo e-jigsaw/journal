@@ -32,6 +32,12 @@ build:
         code: |
           goxc -tasks='xc archive' -bc 'linux,!arm windows darwin' -d $WERCKER_OUTPUT_DIR/
 
+    - script:
+        name: show shasum
+        code: |
+          shasum $WERCKER_OUTPUT_DIR/snapshot/journal_darwin_amd64.zip
+          shasum $WERCKER_OUTPUT_DIR/snapshot/journal_darwin_386.zip
+
 deploy:
   steps:
     - wercker/github-create-release@1.0.1:
