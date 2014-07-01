@@ -67,7 +67,7 @@ func doComment(c *cli.Context) {
 type Config struct {
   Mail string
   Pass string
-  To   string
+  To   []string
   Subj string
 }
 
@@ -81,16 +81,21 @@ func doSend(c *cli.Context) {
   }
   var config Config
   json.Unmarshal(conf, &config)
-  body := "To: " + config.To +
-    "\r\nSubject: " + config.Subj +
+  body := "From:" + config.Mail +
+    "\r\nTo:"
+  for i := 0; i < len(config.To); i++ {
+    body += config.To[i]
+    if i < len(config.To)-1 {
+      body += ","
+    }
+  }
+  body += "\r\nSubject:" + config.Subj +
     "\r\n\r\n# 本日の業務内容\n\ntime  | description\n----- | ----\n" + string(schedule) +
     "\n# 所感\n\n" + string(comment) +
     "\n---" +
     "\nこの日報は激ヤバ鬼便利日報システム改( https://github.com/e-jigsaw/journal )によって送信されました\n"
   auth := smtp.PlainAuth("", config.Mail, config.Pass, "smtp.gmail.com")
-  from := make([]string, 1)
-  from[0] = string(config.Mail)
-  err = smtp.SendMail("smtp.gmail.com:587", auth, config.To, from, []byte(body))
+  err = smtp.SendMail("smtp.gmail.com:587", auth, config.Mail, config.To, []byte(body))
   if err != nil {
     fmt.Println(err)
     return
