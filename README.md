@@ -1,3 +1,5 @@
+# deprecated
+
 # journal(激ヤバ鬼便利日報システム改)
 
 [![wercker status](https://app.wercker.com/status/89474ea5446159910bb06c7113046e21/s/master "wercker status")](https://app.wercker.com/project/bykey/89474ea5446159910bb06c7113046e21)
